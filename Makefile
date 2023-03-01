@@ -6,20 +6,21 @@
 #    By: ttakami <ttakami@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/19 11:44:39 by ttakami           #+#    #+#              #
-#    Updated: 2022/10/28 22:22:43 by ttakami          ###   ########.fr        #
+#    Updated: 2023/03/01 19:34:39 by ttakami          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= libgnl.a
 CC		= gcc
 CFLAGS	= -Wall -Wextra -Werror
-OBJS	= ${SRCS:.c=.o}
-OBJSB	= ${SRCSB:.c=.o}
 SRCS	= get_next_line.c get_next_line_utils.c
 SRCSB	= get_next_line_bonus.c get_next_line_utils_bonus.c
+OBJDIR	= obj
+OBJS	= $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
+OBJSB	= $(addprefix $(OBJDIR)/, $(SRCSB:.c=.o))
 
 ifdef WITH_BONUS
-ALL_OBJS = $(OBJS) $(OBJSB)
+ALL_OBJS = $(OBJSB)
 else
 ALL_OBJS = $(OBJS)
 endif
@@ -29,14 +30,16 @@ all:	$(NAME)
 $(NAME):	$(ALL_OBJS)
 	ar rcs $(NAME) $(ALL_OBJS)
 
-.c.o:
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJDIR)/%.o:	%.c
+	@mkdir -p $(OBJDIR)
+	@[ -d $(OBJDIR) ]
+	$(CC) -c $(CFLAGS) -o $@ $< $(HEADERPATH)
 
 clean:
-	rm -rf $(ALL_OBJS)
+	rm -rf $(OBJDIR)
 
 fclean: clean
-	rm -rf $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
 
