@@ -1,6 +1,5 @@
 # libgnl
-library vesion of get_next_line.
-[ttakami-42/get_next_line](https://github.com/ttakami-42/get_next_line)
+library vesion of [ttakami-42/get_next_line](https://github.com/ttakami-42/get_next_line).
 
 ## Usage
 
